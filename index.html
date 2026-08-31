@@ -11,7 +11,6 @@
 </head>
 <body>
 
-  <!-- audio 태그 추가 (반복 재생 및 자동 재생 설정) -->
 <audio id="bgm-player" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"></audio>
 
 <div id="app-container">
@@ -21,12 +20,12 @@
     <div class="welcome-content">
       <div class="companion-avatar">✎ᝰ.</div>
       <h1 style="font-size: 26px; font-weight: 800; margin-bottom: 8px;">Little Collection</h1>
-      <p style="font-size: 15px; color: #556B51;"> Pixel Art Studio (16x16 Grid)</p>
+      <p style="font-size: 15px; color: #556B51;">Pixel Art Studio (16x16 Grid)</p>
     </div>
     <button class="btn-main" onclick="showScreen('grid-screen')">Start Collection</button>
   </div>
 
-<!-- 2. COLLECTION GRID SCREEN -->
+  <!-- 2. COLLECTION GRID SCREEN -->
   <div id="grid-screen" class="screen">
     <div class="top-bar">
       <div class="top-title">My Collection</div>
@@ -35,9 +34,7 @@
         <button class="icon-btn end-btn" onclick="endSession()">End</button>
       </div>
     </div>
-    <div class="grid-container" id="grid-container">
-      <!-- Cards rendered via JS -->
-    </div>
+    <div class="grid-container" id="grid-container"></div>
     <p class="instruction-text">Tap any artwork to paint or view</p>
   </div>
 
@@ -53,7 +50,6 @@
     </div>
 
     <div class="coloring-body">
-      <!-- Toolbar: Zoom & Reference Thumbnail -->
       <div class="viewport-toolbar">
         <div class="zoom-controls">
           <button class="zoom-btn" onclick="adjustZoom(-0.25)">−</button>
@@ -63,43 +59,34 @@
         
         <div class="ref-preview-wrapper" onclick="openRefModal()">
           <span class="ref-label">Reference</span>
-          <div class="ref-thumbnail" id="ref-thumbnail-box">
-            <!-- Small reference preview thumbnail -->
-          </div>
+          <div class="ref-thumbnail" id="ref-thumbnail-box"></div>
         </div>
       </div>
 
-      <!-- Zoomable & Pannable Viewport -->
       <div class="canvas-viewport" id="canvas-viewport">
         <div class="zoom-transform-layer" id="zoom-layer">
-          <div class="pixel-board" id="pixel-board">
-            <!-- Pixel cells generated dynamically -->
-          </div>
+          <div class="pixel-board" id="pixel-board"></div>
         </div>
       </div>
 
-<!-- coloring-screen 내부 palette-container 부분 -->
-<div class="palette-container">
-  <div class="palette-header">
-    <span>SELECT COLOR</span>
-    <span id="color-name">Leaf Green</span>
-  </div>
-  <div class="palette-tools">
-    <div class="color-swatches" id="color-swatches">
-      <!-- Swatches generated dynamically -->
+      <div class="palette-container">
+        <div class="palette-header">
+          <span>SELECT COLOR</span>
+          <span id="color-name">Leaf Green</span>
+        </div>
+        <div class="palette-tools">
+          <div class="color-swatches" id="color-swatches"></div>
+          <button class="eraser-btn" id="eraser-btn" onclick="toggleEraser()">⌫ Eraser</button>
+        </div>
+      </div>
     </div>
-    <!-- 지우개 버튼 추가 -->
-    <button class="eraser-btn" id="eraser-btn" onclick="toggleEraser()">⌫ Eraser</button>
   </div>
-</div>
 
   <!-- 4. REFERENCE FULL MODAL -->
   <div class="modal-overlay" id="ref-modal" onclick="closeRefModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
       <h3>Reference Art</h3>
       <div class="modal-ref-preview" id="modal-ref-preview"></div>
-      <p style="font-size: 13px; color: #666; text-align: center; margin-bottom: 12px;">
-      </p>
       <button class="btn-main" style="min-height: 42px; font-size: 15px;" onclick="closeRefModal()">Close Reference</button>
     </div>
   </div>
@@ -112,7 +99,6 @@
         <span>Reset Progress</span>
         <button class="danger-btn" onclick="resetAllProgress()">Reset</button>
       </div>
-
       <button class="btn-main" style="min-height: 42px; font-size: 15px; margin-top: 15px;" onclick="closeSettingsModal()">Close</button>
     </div>
   </div>
@@ -122,9 +108,7 @@
     <div class="top-bar" style="justify-content: center;">
       <div class="top-title">Artwork Complete!</div>
     </div>
-    <div class="finish-preview-box" id="finish-preview-box">
-      <!-- Finished artwork canvas -->
-    </div>
+    <div class="finish-preview-box" id="finish-preview-box"></div>
     <div class="comfort-message" id="comfort-message">
       "Everyday might not be good, but there is good in everyday."
     </div>
