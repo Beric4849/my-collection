@@ -194,20 +194,13 @@ function renderCollectionGrid() {
 
     previewBox.appendChild(miniCanvas);
 
-    if (isComplete) {
-      const badge = document.createElement('div');
-      badge.className = 'badge-completed';
-      badge.innerText = 'COMPLETE';
-      card.appendChild(badge);
-    }
-
     const title = document.createElement('div');
     title.className = 'card-title';
     title.innerText = art.title;
 
     const status = document.createElement('div');
     status.className = 'card-status';
-    status.innerText = isComplete ? '✨ View Masterpiece' : `${percent}% Painted`;
+    status.innerText = isComplete ? ' View Masterpiece' : `${percent}% Painted`;
 
     card.appendChild(previewBox);
     card.appendChild(title);
@@ -453,22 +446,38 @@ function resetAllProgress() {
 
 function checkProgress() {
   const art = ARTWORKS[currentArtId];
+  const palette = PALETTES[art.paletteKey];
   const progress = userProgress[art.id];
 
-  let targetCount = 0;
-  let filledCount = 0;
+  let targetCount = 0; // 칠해야 하는 총 셀 수
+  let filledCount = 0; // 채워진 셀 수
+  let correctCount = 0; // 정답 색상으로 정확히 채워진 셀 수
 
   art.gridMap.forEach((targetVal, idx) => {
     if (targetVal !== 0) {
       targetCount++;
-      if (progress[idx] !== null) filledCount++;
+      const userColor = progress[idx];
+      const correctColor = palette[targetVal].hex;
+
+      if (userColor !== null && userColor !== undefined) {
+        filledCount++;
+        // 칠한 색상이 정답 색상과 일치하는지 검증
+        if (userColor.toLowerCase() === correctColor.toLowerCase()) {
+          correctCount++;
+        }
+      }
     }
   });
 
-  const percent = Math.min(100, Math.round((filledCount / targetCount) * 100));
-  document.getElementById('progress-text').innerText = `${percent}% Completed`;
+  // UI 상단에는 채운 진행률(%) 표시
+  const percent = targetCount > 0 ? Math.min(100, Math.round((filledCount / targetCount) * 100)) : 0;
+  const progressText = document.getElementById('progress-text');
+  if (progressText) {
+    progressText.innerText = `${percent}% Completed`;
+  }
 
-  if (filledCount >= targetCount) {
+  // [수정 핵심] 모든 셀이 '정확한 정답 색상'으로 채워졌을 때만 완료 화면 실행
+  if (targetCount > 0 && correctCount === targetCount) {
     setTimeout(() => finishArtwork(), 250);
   }
 }
@@ -483,16 +492,15 @@ function finishArtwork() {
   const progress = userProgress[art.id];
 
   const box = document.getElementById('finish-preview-box');
+  if (!box) return;
+
   box.innerHTML = '';
 
   const finalGrid = document.createElement('div');
   finalGrid.style.display = 'grid';
   finalGrid.style.gridTemplateColumns = `repeat(${art.size}, 1fr)`;
-  finalGrid.style.width = '180px';
-  finalGrid.style.height = '180px';
-  finalGrid.style.borderRadius = '8px';
-  finalGrid.style.overflow = 'hidden';
-  finalGrid.style.border = '2px solid var(--text-primary)';
+  finalGrid.style.width = '100%';
+  finalGrid.style.height = '100%';
 
   art.gridMap.forEach((targetVal, idx) => {
     const p = document.createElement('div');
@@ -507,7 +515,7 @@ function finishArtwork() {
 renderCollectionGrid();
 
 function endSession() {
-  if (confirm('세션을 종료하고 처음 화면으로 돌아가시겠습니까?')) {
+  if (confirm('Would you like to end the session and return to the first screen?')) {
     showScreen('welcome-screen');
   }
 }
