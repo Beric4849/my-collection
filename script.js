@@ -434,7 +434,7 @@ function toggleEraser() {
 }
 
 function resetAllProgress() {
-  if (confirm('모든 채색 데이터를 초기화하시겠습니까?')) {
+  if (confirm('Would you like to initialize all coloring data?')) {
     ARTWORKS.forEach(art => {
       userProgress[art.id] = new Array(art.gridMap.length).fill(null);
     });
