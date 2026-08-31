@@ -577,7 +577,48 @@ body {
 
 /* 지우개 모드 활성화 상태 */
 .eraser-btn.active {
-  background-color: #E53935;
+  background-color: #e95e5b;
   color: white;
-  border-color: #C62828;
+  border-color: #e95e5b;
+}
+
+/* Finish Screen Styles */
+#finish-screen {
+  background-color: var(--bg-color);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 18px;
+  box-sizing: border-box;
+}
+
+#finish-screen.active {
+  display: flex !important;
+  z-index: 20;
+}
+
+.finish-preview-box {
+  width: 200px;
+  height: 200px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 3px solid var(--btn-secondary);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.comfort-message {
+  font-size: 15px;
+  font-weight: 600;
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0 20px 0;
+  color: var(--text-primary);
+  line-height: 1.5;
+  padding: 0 10px;
 }
