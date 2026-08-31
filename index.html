@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Little Collection - Pixel Art Drawing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- audio 태그 추가 (반복 재생 및 자동 재생 설정) -->
+<audio id="bgm-player" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"></audio>
+
+<div id="app-container">
+  
+  <!-- 1. WELCOME SCREEN -->
+  <div id="welcome-screen" class="screen active">
+    <div class="welcome-content">
+      <div class="companion-avatar">✎ᝰ.</div>
+      <h1 style="font-size: 26px; font-weight: 800; margin-bottom: 8px;">Little Collection</h1>
+      <p style="font-size: 15px; color: #556B51;"> Pixel Art Studio (16x16 Grid)</p>
+    </div>
+    <button class="btn-main" onclick="showScreen('grid-screen')">Start Collection</button>
+  </div>
+
+<!-- 2. COLLECTION GRID SCREEN -->
+  <div id="grid-screen" class="screen">
+    <div class="top-bar">
+      <div class="top-title">My Collection</div>
+      <div style="display: flex; gap: 6px;">
+        <button class="icon-btn" onclick="toggleAudio()" id="audio-toggle-btn">🔇</button>
+        <button class="icon-btn end-btn" onclick="endSession()">End</button>
+      </div>
+    </div>
+    <div class="grid-container" id="grid-container">
+      <!-- Cards rendered via JS -->
+    </div>
+    <p class="instruction-text">Tap any artwork to paint or view</p>
+  </div>
+
+  <!-- 3. PIXEL COLORING SCREEN -->
+  <div id="coloring-screen" class="screen">
+    <div class="top-bar">
+      <button class="icon-btn" onclick="showScreen('grid-screen')">← Back</button>
+      <div style="text-align: center;">
+        <div id="art-title" style="font-size: 18px; font-weight: 800;">Plant Friend</div>
+        <div id="progress-text" style="font-size: 16px; color: #5A7557; font-weight: 700;">0% Completed</div>
+      </div>
+      <button class="icon-btn" onclick="openSettingsModal()">⫶☰</button>
+    </div>
+
+    <div class="coloring-body">
+      <!-- Toolbar: Zoom & Reference Thumbnail -->
+      <div class="viewport-toolbar">
+        <div class="zoom-controls">
+          <button class="zoom-btn" onclick="adjustZoom(-0.25)">−</button>
+          <span class="zoom-level-text" id="zoom-text">100%</span>
+          <button class="zoom-btn" onclick="adjustZoom(0.25)">+</button>
+        </div>
+        
+        <div class="ref-preview-wrapper" onclick="openRefModal()">
+          <span class="ref-label">Reference</span>
+          <div class="ref-thumbnail" id="ref-thumbnail-box">
+            <!-- Small reference preview thumbnail -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Zoomable & Pannable Viewport -->
+      <div class="canvas-viewport" id="canvas-viewport">
+        <div class="zoom-transform-layer" id="zoom-layer">
+          <div class="pixel-board" id="pixel-board">
+            <!-- Pixel cells generated dynamically -->
+          </div>
+        </div>
+      </div>
+
+<!-- coloring-screen 내부 palette-container 부분 -->
+<div class="palette-container">
+  <div class="palette-header">
+    <span>SELECT COLOR</span>
+    <span id="color-name">Leaf Green</span>
+  </div>
+  <div class="palette-tools">
+    <div class="color-swatches" id="color-swatches">
+      <!-- Swatches generated dynamically -->
+    </div>
+    <!-- 지우개 버튼 추가 -->
+    <button class="eraser-btn" id="eraser-btn" onclick="toggleEraser()">⌫ Eraser</button>
+  </div>
+</div>
+
+  <!-- 4. REFERENCE FULL MODAL -->
+  <div class="modal-overlay" id="ref-modal" onclick="closeRefModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <h3>Reference Art</h3>
+      <div class="modal-ref-preview" id="modal-ref-preview"></div>
+      <p style="font-size: 13px; color: #666; text-align: center; margin-bottom: 12px;">
+      </p>
+      <button class="btn-main" style="min-height: 42px; font-size: 15px;" onclick="closeRefModal()">Close Reference</button>
+    </div>
+  </div>
+
+  <!-- 5. SETTINGS MODAL -->
+  <div class="modal-overlay" id="settings-modal" onclick="closeSettingsModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <h3>Settings</h3>
+      <div class="setting-item">
+        <span>Reset Progress</span>
+        <button class="danger-btn" onclick="resetAllProgress()">Reset</button>
+      </div>
+
+      <button class="btn-main" style="min-height: 42px; font-size: 15px; margin-top: 15px;" onclick="closeSettingsModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- 6. FINISH SCREEN -->
+  <div id="finish-screen" class="screen">
+    <div class="top-bar" style="justify-content: center;">
+      <div class="top-title">Artwork Complete!</div>
+    </div>
+    <div class="finish-preview-box" id="finish-preview-box">
+      <!-- Finished artwork canvas -->
+    </div>
+    <div class="comfort-message" id="comfort-message">
+      "Everyday might not be good, but there is good in everyday."
+    </div>
+    <button class="btn-main" onclick="showScreen('grid-screen')">Back to Collection</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
